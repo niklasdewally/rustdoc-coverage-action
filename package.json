@@ -1,0 +1,24 @@
+{
+  "name": "rustdoc-coverage-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bewee/rustdoc-coverage-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bewee/rustdoc-coverage-action/issues"
+  },
+  "homepage": "https://github.com/bewee/rustdoc-coverage-action#readme",
+  "dependencies": {
+    "@actions-rs/core": "file:core-0.1.6-npm.tgz",
+    "@actions/core": "^1.6.0"
+  }
+}
