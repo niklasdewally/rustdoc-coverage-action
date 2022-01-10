@@ -1,24 +1,43 @@
 {
   "name": "rustdoc-coverage-action",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Rustdoc coverage action",
+  "main": "lib/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "lint": "eslint src/**/*.ts",
+    "package": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bewee/rustdoc-coverage-action.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/bewee/rustdoc-coverage-action/issues"
-  },
-  "homepage": "https://github.com/bewee/rustdoc-coverage-action#readme",
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "bewee",
+  "license": "MPL-2.0",
   "dependencies": {
-    "@actions-rs/core": "file:core-0.1.6-npm.tgz",
+    "@actions-rs/core": "^0.1.6",
     "@actions/core": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.5",
+    "@typescript-eslint/parser": "^5.8.1",
+    "@vercel/ncc": "^0.31.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-github": "^4.3.5",
+    "eslint-plugin-jest": "^25.3.2",
+    "jest": "^27.2.5",
+    "js-yaml": "^4.1.0",
+    "prettier": "2.5.1",
+    "ts-jest": "^27.1.2",
+    "typescript": "^4.4.4"
   }
 }

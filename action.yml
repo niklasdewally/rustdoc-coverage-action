@@ -1,5 +1,6 @@
 name: 'Rustdoc coverage'
 description: 'Generate rustdoc coverage report'
+author: 'bewee'
 inputs:
   use-cross:
     description: Use cross instead of cargo
@@ -13,4 +14,4 @@ outputs:
     description: 'The complete rustdoc coverage output'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
