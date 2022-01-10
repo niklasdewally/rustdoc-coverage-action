@@ -5,6 +5,10 @@ inputs:
   use-cross:
     description: Use cross instead of cargo
     default: false
+    required: false
+  working-directory:
+    description: Select a custom working directory
+    required: false
 outputs:
   documented:
     description: 'The overall percentage of documented code'

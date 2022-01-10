@@ -29,6 +29,13 @@ async function run(): Promise<void> {
       }
     }
 
+    const workingDirectory = core.getInput('working-directory', {
+      required: false
+    })
+    if (workingDirectory !== '') {
+      options.cwd = workingDirectory
+    }
+
     if ((await program.call(args, options)) !== 0) {
       core.setFailed('Cargo terminated with non-zero exit code')
       return
