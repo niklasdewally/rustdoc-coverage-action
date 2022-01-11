@@ -1,5 +1,7 @@
 //! Example module
 
+pub mod foo;
+
 /// Returns 42
 ///
 /// # Examples

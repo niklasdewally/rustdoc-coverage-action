@@ -14,8 +14,10 @@ outputs:
     description: 'The overall percentage of documented code'
   examples:
     description: 'The overall percentage of code with examples'
-  output:
-    description: 'The complete rustdoc coverage output'
+  table:
+    description: 'Tabular rustdoc coverage summary'
+  json:
+    description: 'JSON rustdoc coverage summary'
 runs:
   using: 'node12'
   main: 'dist/index.js'
