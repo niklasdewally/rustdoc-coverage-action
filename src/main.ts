@@ -1,22 +1,56 @@
 import * as core from '@actions/core'
 import {Cargo, Cross, input} from '@actions-rs/core'
+import {existsSync, readFileSync, writeFileSync} from 'fs'
 import {CoverageData} from './coverage-data'
+import {join} from 'path'
 import {markdownTable} from 'markdown-table'
+import numeral from 'numeral'
 
 async function run(): Promise<void> {
   try {
     const useCross = input.getInputBool('use-cross')
-    const workingDirectory = core.getInput('working-directory', {
-      required: false
-    })
+    const workingDirectory = core.getInput('working-directory', {})
+    const storeReport = input.getInputBool('store-report')
+    const calculateDiff = input.getInputBool('calculate-diff')
+    const coverageReportFile = join(
+      workingDirectory,
+      'rustdoc-coverage-report.json'
+    )
+
+    let previous: CoverageData | undefined = undefined
+    if (calculateDiff && existsSync(coverageReportFile)) {
+      const report = readFileSync(coverageReportFile).toString()
+      previous = new CoverageData(report)
+    }
 
     const cargoOutput = await executeRustdoc(useCross, workingDirectory)
-    const coverageData = new CoverageData(cargoOutput)
+    const coverageData = new CoverageData(cargoOutput, previous)
 
-    core.setOutput('documented', coverageData.percentageDocs.toFixed(2))
-    core.setOutput('examples', coverageData.percentageExamples.toFixed(2))
+    const numberFormatter = '0.[00]%'
+    const diffFormatter = '+0.[00]%'
+
+    core.setOutput(
+      'documented',
+      numeral(coverageData.percentageDocs).format(numberFormatter)
+    )
+    core.setOutput(
+      'diff-documented',
+      numeral(coverageData.diffPercentageDocs).format(diffFormatter)
+    )
+    core.setOutput(
+      'examples',
+      numeral(coverageData.percentageExamples).format(numberFormatter)
+    )
+    core.setOutput(
+      'diff-examples',
+      numeral(coverageData.diffPercentageExamples).format(diffFormatter)
+    )
     core.setOutput('json', cargoOutput)
     core.setOutput('table', markdownTable(coverageData.asTable()))
+
+    if (storeReport) {
+      writeFileSync(coverageReportFile, cargoOutput)
+    }
   } catch (error: unknown) {
     if (typeof error === 'string') {
       core.setFailed(error.toUpperCase())
