@@ -79,7 +79,8 @@ async function executeRustdoc(
 
   const args = []
   args.push('+nightly')
-  args.push('rustdoc')
+  args.push('doc')
+  args.push('--workspace')
   args.push('--')
   args.push('-Z')
   args.push('unstable-options')
